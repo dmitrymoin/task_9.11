@@ -17,7 +17,7 @@ const start = function () {
 
 window.onload = start;
 
-const generate = document.querySelector("#generate"); // Кнопка генерация данных
+const generate = document.querySelector("#generate"); // Кнопка генерации данных
 generate.addEventListener("click", start);
 
 const clear = document.querySelector("#clear"); // Кнопка сброса

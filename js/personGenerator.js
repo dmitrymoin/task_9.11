@@ -50,21 +50,6 @@ const personGenerator = {
             "id_10": "Людмила"
         }
     }`,
-    patronymicJson: `{
-        "count": 10,
-        "list": {     
-            "id_1": "Дмитриев",
-            "id_2": "Иванов",
-            "id_3": "Олегов",
-            "id_4": "Михайлов",
-            "id_5": "Геннадьев",
-            "id_6": "Юрьев",
-            "id_7": "Сергеев",
-            "id_8": "Александров",
-            "id_9": "Алексеев",
-            "id_10": "Николаев"
-        }
-    }`,
     profMaleJson: `{
         "count": 10,
         "list": {     
@@ -112,7 +97,7 @@ const personGenerator = {
             "id_12": "декабря"
         }
     }`,
-    
+
     GENDER_MALE: "Мужской",
     GENDER_FEMALE: "Женский",
 
@@ -131,7 +116,8 @@ const personGenerator = {
             : this.GENDER_FEMALE;
     },
 
-    randomFirstName: function (gender) {    // Функция принимает аргументом переменную gender (случайный пол) из getPerson
+    randomFirstName: function (gender) {
+        // Функция принимает аргументом переменную gender (случайный пол) из getPerson
         if (gender === this.GENDER_MALE) {
             return this.randomValue(this.firstNameMaleJson);
         } else {
@@ -149,15 +135,26 @@ const personGenerator = {
     },
 
     randomPatronymic: function (gender) {
-        const patronymic = this.randomValue(this.patronymicJson);
+        const name = this.randomValue(this.firstNameMaleJson);
         if (gender === this.GENDER_MALE) {
-            return patronymic + "ич";
-        } else {
-            return patronymic + "на";
+            if (name === "Дмитрий" || name === "Андрей") {
+                return name.replace("й", "евич");
+            } else if (name === "Никита") {
+                return name.replace("а", "ич");
+            }
+            return name + "ович";
+        
+        } else if (gender === this.GENDER_FEMALE) {
+            if (name === "Дмитрий" || name === "Андрей") {
+                return name.replace("й", "евна");
+            } else if (name === "Никита") {
+                return name.replace("а", "ична");
+            }
+            return name + "овна";
         }
     },
 
-    randomProfession: function (gender) { 
+    randomProfession: function (gender) {
         if (gender === this.GENDER_MALE) {
             return this.randomValue(this.profMaleJson);
         } else {
@@ -165,26 +162,35 @@ const personGenerator = {
         }
     },
 
-    randomDate: function (month) {      // Функция принимает аргументом переменную month (случайный месяц) из getPerson
+    randomDate: function (month) {
+        // Функция принимает аргументом переменную month (случайный месяц) из getPerson
         if (month === "февраля") {
             return this.randomIntNumber(29, 1);
-        } else if (month === "апреля" || month === "июня" || month === "сентября" || month === "ноября") {
+        } else if (
+            month === "апреля" ||
+            month === "июня" ||
+            month === "сентября" ||
+            month === "ноября"
+        ) {
             return this.randomIntNumber(30, 1);
         } else {
             return this.randomIntNumber(31, 1);
         }
     },
-    
+
     randomMonth: function (month) {
         return month;
     },
-    
+
     randomAge: function () {
         return this.randomIntNumber(2000, 1960);
     },
 
-    birthYear: function (month) {       // Функция конкатенации даты рождения
-        return `${this.randomDate(month)} ${this.randomMonth(month)} ${this.randomAge()} года`
+    birthYear: function (month) {
+        // Функция конкатенации даты рождения
+        return `${this.randomDate(month)} ${this.randomMonth(
+            month
+        )} ${this.randomAge()} года`;
     },
 
     getPerson: function () {
